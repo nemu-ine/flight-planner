@@ -56,7 +56,6 @@ public class FlightPlannerService {
             Flight foundFlight = getFlight(stringId);
             flightPlannerRepository.removeFlight(foundFlight);
         } catch (Exception ignored) {
-
         }
     }
 
@@ -65,8 +64,8 @@ public class FlightPlannerService {
         return flightPlannerRepository.listFlights().stream()
                 .map(Flight::getFrom)
                 .filter(flightFrom -> flightFrom.getAirport().toLowerCase().contains(formattedRequest)
-                || flightFrom.getCity().toLowerCase().contains(formattedRequest)
-                || flightFrom.getCountry().toLowerCase().contains(formattedRequest))
+                        || flightFrom.getCity().toLowerCase().contains(formattedRequest)
+                        || flightFrom.getCountry().toLowerCase().contains(formattedRequest))
                 .toList();
     }
 
