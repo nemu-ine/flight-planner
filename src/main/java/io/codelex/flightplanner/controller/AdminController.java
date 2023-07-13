@@ -23,4 +23,14 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.CREATED).body(request);
     }
 
+    @GetMapping("/flights/{id}")
+    public ResponseEntity<Flight> getFlightById(@PathVariable String id) {
+        return ResponseEntity.ok(flightPlannerService.getFlight(id));
+    }
+
+    @DeleteMapping("/flights/{id}")
+    public void removeFlight(@PathVariable String id) {
+        flightPlannerService.removeFlight(id);
+    }
+
 }

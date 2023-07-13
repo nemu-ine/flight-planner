@@ -7,6 +7,7 @@ import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Objects;
 
 public class Flight {
 
@@ -82,4 +83,33 @@ public class Flight {
     public void setArrivalTime(String arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
+
+    @Override
+    public String toString() {
+        return "Flight{" +
+                "from=" + from +
+                ", to=" + to +
+                ", carrier='" + carrier + '\'' +
+                ", departureTime='" + departureTime + '\'' +
+                ", arrivalTime='" + arrivalTime + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Flight flight = (Flight) o;
+        return Objects.equals(from, flight.from) &&
+                Objects.equals(to, flight.to) &&
+                Objects.equals(carrier, flight.carrier) &&
+                Objects.equals(departureTime, flight.departureTime) &&
+                Objects.equals(arrivalTime, flight.arrivalTime);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(to, carrier, departureTime, arrivalTime);
+    }
+
 }

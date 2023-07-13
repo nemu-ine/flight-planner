@@ -2,6 +2,8 @@ package io.codelex.flightplanner.flight;
 
 import jakarta.validation.constraints.NotBlank;
 
+import java.util.Objects;
+
 public class Airport {
 
     @NotBlank
@@ -39,5 +41,29 @@ public class Airport {
 
     public void setAirport(String airport) {
         this.airport = airport;
+    }
+
+    @Override
+    public String toString() {
+        return "Airport{" +
+                "country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", airport='" + airport + '\'' +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Airport airportObject = (Airport) o;
+        return country.strip().equalsIgnoreCase(airportObject.country.strip()) &&
+                city.strip().equalsIgnoreCase(airportObject.city.strip()) &&
+                airport.strip().equalsIgnoreCase(airportObject.airport.strip());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(country, city, airport);
     }
 }
