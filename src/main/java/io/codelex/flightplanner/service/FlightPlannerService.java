@@ -1,13 +1,16 @@
 package io.codelex.flightplanner.service;
 
 import io.codelex.flightplanner.flight.Airport;
+import io.codelex.flightplanner.flight.FlightSearch;
 import io.codelex.flightplanner.repository.FlightPlannerRepository;
 import io.codelex.flightplanner.flight.Flight;
+import io.codelex.flightplanner.response.PageResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+
 
 @Service
 public class FlightPlannerService {
@@ -18,15 +21,15 @@ public class FlightPlannerService {
         this.flightPlannerRepository = flightPlannerRepository;
     }
 
-    public void addFlight(Flight request) {
+    public synchronized void addFlight(Flight request) {
+        if (flightPlannerRepository.listFlights().contains(request)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Flight already exists");
+        }
         if (request.getFrom().equals(request.getTo())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight can't be to the same place");
         }
         if (!request.getDepartureTime().isBefore(request.getArrivalTime())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight can't be arriving before it left");
-        }
-        if (flightPlannerRepository.listFlights().contains(request)) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Flight already exists");
         }
         long id = flightPlannerRepository.listFlights().stream()
                 .mapToLong(Flight::getId)
@@ -48,11 +51,11 @@ public class FlightPlannerService {
         return flightList.get(0);
     }
 
-    public void removeFlight(String stringId) {
+    public synchronized void removeFlight(String stringId) {
         try {
             Flight foundFlight = getFlight(stringId);
             flightPlannerRepository.removeFlight(foundFlight);
-        } catch (Exception e) {
+        } catch (Exception ignored) {
 
         }
     }
@@ -65,6 +68,18 @@ public class FlightPlannerService {
                 || flightFrom.getCity().toLowerCase().contains(formattedRequest)
                 || flightFrom.getCountry().toLowerCase().contains(formattedRequest))
                 .toList();
+    }
+
+    public synchronized PageResult<Flight> getFilteredFlights(FlightSearch flightSearch) {
+        if (flightSearch.getFrom().equalsIgnoreCase(flightSearch.getTo())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Flight can't be to the same place");
+        }
+        List<Flight> filteredFlights = flightPlannerRepository.listFlights().stream()
+                .filter(flight -> flight.getFrom().getAirport().equals(flightSearch.getFrom())
+                        && flight.getTo().getAirport().equals(flightSearch.getTo())
+                        && flight.getDepartureTime().toString().contains(flightSearch.getDepartureDate())) // .equals() does not work
+                .toList();
+        return new PageResult<>(0, filteredFlights.size(), filteredFlights);
     }
 
     public void clear() {
