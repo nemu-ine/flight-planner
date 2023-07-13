@@ -1,5 +1,6 @@
 package io.codelex.flightplanner.service;
 
+import io.codelex.flightplanner.flight.Airport;
 import io.codelex.flightplanner.repository.FlightPlannerRepository;
 import io.codelex.flightplanner.flight.Flight;
 import org.springframework.http.HttpStatus;
@@ -54,6 +55,16 @@ public class FlightPlannerService {
         } catch (Exception e) {
 
         }
+    }
+
+    public List<Airport> getFilteredAirports(String request) {
+        String formattedRequest = request.toLowerCase().strip();
+        return flightPlannerRepository.listFlights().stream()
+                .map(Flight::getFrom)
+                .filter(flightFrom -> flightFrom.getAirport().toLowerCase().contains(formattedRequest)
+                || flightFrom.getCity().toLowerCase().contains(formattedRequest)
+                || flightFrom.getCountry().toLowerCase().contains(formattedRequest))
+                .toList();
     }
 
     public void clear() {
