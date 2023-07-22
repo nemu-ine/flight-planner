@@ -5,6 +5,7 @@ import io.codelex.flightplanner.controller.TestingController;
 import io.codelex.flightplanner.flight.Airport;
 import io.codelex.flightplanner.flight.Flight;
 import io.codelex.flightplanner.repository.FlightPlannerRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +32,11 @@ class FlightPlannerIntegrationTests {
             "2023-04-04 15:00",
             "2023-04-04 18:00"
     );
+
+    @BeforeEach
+    public void setUp() {
+        flightPlannerRepository.clear();
+    }
 
     @Test
     @DisplayName("Add flight test")

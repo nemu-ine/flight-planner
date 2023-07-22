@@ -11,7 +11,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-
 @Service
 public class FlightPlannerService {
 

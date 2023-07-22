@@ -109,7 +109,7 @@ public class Flight {
 
     @Override
     public int hashCode() {
-        return Objects.hash(to, carrier, departureTime, arrivalTime);
+        return Objects.hash(from, to, carrier, departureTime, arrivalTime);
     }
 
 }
