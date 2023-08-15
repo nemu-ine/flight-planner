@@ -1,9 +1,9 @@
 package io.codelex.flightplanner.service;
 
 import io.codelex.flightplanner.controller.FlightPlannerController;
-import io.codelex.flightplanner.flight.Flight;
-import io.codelex.flightplanner.flight.FlightSearch;
-import io.codelex.flightplanner.repository.FlightPlannerRepository;
+import io.codelex.flightplanner.entity.Flight;
+import io.codelex.flightplanner.dto.FlightSearch;
+import io.codelex.flightplanner.repository.MemoryFlightPlannerRepository;
 import io.codelex.flightplanner.response.PageResult;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class FlightServiceUnitTests {
 
     @Mock
-    private FlightPlannerRepository flightPlannerRepository;
+    private MemoryFlightPlannerRepository memoryFlightPlannerRepository;
     @InjectMocks
     private FlightPlannerController flightPlannerController;
 

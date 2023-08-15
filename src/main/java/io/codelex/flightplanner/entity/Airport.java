@@ -1,11 +1,17 @@
-package io.codelex.flightplanner.flight;
+package io.codelex.flightplanner.entity;
 
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Objects;
 
+@Entity
+@Table(name = "airports")
 public class Airport {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     @NotBlank
     private String country;
     @NotBlank
@@ -17,6 +23,14 @@ public class Airport {
         this.country = country;
         this.city = city;
         this.airport = airport;
+    }
+
+    public Airport() {
+
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getCountry() {

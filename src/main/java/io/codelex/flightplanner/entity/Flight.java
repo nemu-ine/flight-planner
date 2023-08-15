@@ -1,37 +1,51 @@
-package io.codelex.flightplanner.flight;
+package io.codelex.flightplanner.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
+@Entity
+@Table(name = "flights")
 public class Flight {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @OneToOne
+    @JoinColumn(name = "from_id")
     @NotNull
     @Valid
     private Airport from;
+    @OneToOne
+    @JoinColumn(name = "to_id")
     @NotNull
     @Valid
     private Airport to;
+    @Column(name = "carrier")
     @NotBlank
     private String carrier;
-    @NotBlank
-    private String departureTime;
-    @NotBlank
-    private String arrivalTime;
-    private final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    @Column(name = "departure")
+    @NotNull
+    private LocalDateTime departureTime;
+    @Column(name = "arrival")
+    @NotNull
+    private LocalDateTime arrivalTime;
 
-    public Flight(Airport from, Airport to, String carrier, String departureTime, String arrivalTime) {
+    public Flight(Airport from, Airport to, String carrier, LocalDateTime departureTime, LocalDateTime arrivalTime) {
         this.from = from;
         this.to = to;
         this.carrier = carrier;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
+    }
+
+    public Flight() {
+
     }
 
     public long getId() {
@@ -68,19 +82,19 @@ public class Flight {
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public LocalDateTime getDepartureTime() {
-        return LocalDateTime.parse(departureTime, dtf);
+        return departureTime;
     }
 
-    public void setDepartureTime(String departureTime) {
+    public void setDepartureTime(LocalDateTime departureTime) {
         this.departureTime = departureTime;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     public LocalDateTime getArrivalTime() {
-        return LocalDateTime.parse(arrivalTime, dtf);
+        return arrivalTime;
     }
 
-    public void setArrivalTime(String arrivalTime) {
+    public void setArrivalTime(LocalDateTime arrivalTime) {
         this.arrivalTime = arrivalTime;
     }
 

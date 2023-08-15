@@ -1,6 +1,6 @@
 package io.codelex.flightplanner.controller;
 
-import io.codelex.flightplanner.service.FlightPlannerService;
+import io.codelex.flightplanner.service.I_FlightPlannerService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/testing-api")
 public class TestingController {
 
-    private final FlightPlannerService flightPlannerService;
+    private final I_FlightPlannerService IFlightPlannerService;
 
-    public TestingController(FlightPlannerService flightPlannerService) {
-        this.flightPlannerService = flightPlannerService;
+    public TestingController(I_FlightPlannerService IFlightPlannerService) {
+        this.IFlightPlannerService = IFlightPlannerService;
     }
 
     @PostMapping("/clear")
     public void clearMapping() {
-        flightPlannerService.clear();
+        IFlightPlannerService.clear();
     }
 
 }
