@@ -12,12 +12,12 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
 import java.util.Optional;
 
-public class DatabaseIFlightPlannerService implements I_FlightPlannerService {
+public class DatabaseFlightPlannerService implements I_FlightPlannerService {
 
     private final DatabaseFlightsRepository databaseFlightsRepository;
     private final DatabaseAirportsRepository databaseAirportsRepository;
 
-    public DatabaseIFlightPlannerService(DatabaseFlightsRepository databaseFlightsRepository, DatabaseAirportsRepository databaseAirportsRepository) {
+    public DatabaseFlightPlannerService(DatabaseFlightsRepository databaseFlightsRepository, DatabaseAirportsRepository databaseAirportsRepository) {
         this.databaseAirportsRepository = databaseAirportsRepository;
         this.databaseFlightsRepository = databaseFlightsRepository;
     }

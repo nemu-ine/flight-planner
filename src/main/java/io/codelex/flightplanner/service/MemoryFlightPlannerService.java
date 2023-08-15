@@ -10,11 +10,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
-public class MemoryIFlightPlannerService implements I_FlightPlannerService {
+public class MemoryFlightPlannerService implements I_FlightPlannerService {
 
     private final MemoryFlightPlannerRepository memoryFlightPlannerRepository;
 
-    public MemoryIFlightPlannerService(MemoryFlightPlannerRepository memoryFlightPlannerRepository) {
+    public MemoryFlightPlannerService(MemoryFlightPlannerRepository memoryFlightPlannerRepository) {
         this.memoryFlightPlannerRepository = memoryFlightPlannerRepository;
     }
 
